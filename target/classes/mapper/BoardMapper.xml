@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.hello.mapper.BoardMapper">
+
+		<!-- 게시판 추가하기 -->
+    <insert id="insertBoard">
+        insert into hello_board (b_title,b_writer,b_detail,b_date) values(#{b_title},#{b_writer},#{b_detail},SYSDATE())
+    </insert>
+    
+    <!-- 게시판 리스트보기 -->
+    <select id="listBoard" resultType="BoardVO"> 
+    <![CDATA[
+        select * from test1.hello_board order by b_no desc
+    ]]>
+    </select>
+    
+    <!-- 게시판 상세보기 --> 
+    <select id="detailBoard" resultType="BoardVO">
+            select * from test1.hello_board where b_no = #{b_no}
+    </select>
+ 
+    <!-- 게시판 삭제하기 -->
+    <delete id="deleteBoard">
+        delete from test1.hello_board where b_no = #{b_no}
+    </delete>
+    
+    <!-- 게시판 수정하기 -->
+    <update id="updateBoard">
+        update hello_board set b_detail = #{b_detail} where b_no = #{b_no}
+    </update>
+    
+   
+    <select id="listPage" resultType="BoardVO">
+    <![CDATA[
+    	select b_no, b_title, b_detail, b_writer, b_date, b_count
+    	from test1.hello_board
+    	where b_no > 0
+    	order by b_no desc, b_date desc
+    	limit #{page}, 10
+    ]]>
+    </select>
+    
+    <!--리스트 몇개씩 보여주는지 -->
+    <select id="listCriteria" resultType="BoardVO">
+    <![CDATA[
+    	select b_no, b_title, b_detail, b_writer, b_date, b_count
+    	from test1.hello_board
+    	where b_no > 0
+    	order by b_no desc, b_date desc
+    	limit #{pageStart}, #{perPageNum}
+    ]]>
+    </select>
+    
+    <!--total count 계산 -->
+    <select id="countPaging" resultType="int">
+    <![CDATA[
+    	select count(b_no)
+    	from test1.hello_board
+    	where b_no > 0
+    ]]>
+    </select>
+    
+</mapper>
+
