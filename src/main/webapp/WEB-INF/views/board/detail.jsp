@@ -18,7 +18,6 @@
 		$(document).ready(function(){
 			
 			var formObj = $("form[role='form']");
-			
 			$("#delete_btn").on("click", function(){
 				var check = confirm("삭제하시겠습니까??")
 				if(check == true){
